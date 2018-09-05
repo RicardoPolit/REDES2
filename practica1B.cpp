@@ -531,7 +531,7 @@ vector<individuo> poblacion::nueva( individuo hijo ){
 		nuevaPoblacion[ i ] = indi[ Gan[i] ];			//Se mantienen los individuos mas fuertes
 
 	for(int i = 0; i < Perd.size(); i++ )
-		nuevaPoblacion[ [ i ] ] = hijo;				// Se reemplazan los debiles por los hijos
+		nuevaPoblacion[ Perd[i] ] = hijo;				// Se reemplazan los debiles por los hijos
 
 	return nuevaPoblacion;
 }
