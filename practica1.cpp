@@ -499,7 +499,7 @@ void poblacion::mostrarResultado( double valorvars ,int se){
   std::ostringstream convert;
   convert << se-9;
   aut = convert.str();
-  
+
 	//Imprime los valores del maximo individuo en el archivo 'salida.txt'
 	string nombreArchivo = "salida"+aut+".txt";
 	individuo individuoGanador = indi[ ganador ];
