@@ -103,7 +103,7 @@ class poblacion{
 
 int main( ){
 
-	int socNum = 2;
+	int socNum = 6;
 
 	int *semillas;
 
@@ -157,8 +157,8 @@ void *creaSociedad(void *a){
 
 		//Termina: Crea el individuo
 
-		cout << "Creando primera poblacion hilo con semilla " << (*seed) << " :" << endl;
-		cout << ++contador << "/" << tamPob << endl;
+		//cout << "Creando primera poblacion hilo con semilla " << (*seed) << " :" << endl;
+		//cout << ++contador << "/" << tamPob << endl;
 	}
 
 	//Inicia: Crea la poblacion
@@ -184,8 +184,8 @@ void *creaSociedad(void *a){
 
 	//Termina: condicion de termino
 
-		cout << "Iteraciones: " << endl;
-		cout << iterra-iteraciones << "/" << iterra << endl;
+		//cout << "Iteraciones: " << endl;
+		//cout << iterra-iteraciones << "/" << iterra << endl;
 		salida = 0;
 		do{
 
