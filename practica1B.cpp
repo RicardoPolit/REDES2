@@ -666,12 +666,12 @@ int * poblacion::fuerte(){
 
 	healt = pthread_create(&hilo1,NULL,padresHilo,(void *)estructura);
 	if (healt = -1) {
-		cout << "Error al crear el hilo" << endl;
+		cout << "Error al crear el hilo uno" << endl;
 		exit(0);
 	}
 	healt = pthread_create(&hilo2,NULL,debilesHilo,(void *)estructura);
 	if (healt = -1) {
-		cout << "Error al crear el hilo" << endl;
+		cout << "Error al crear el hilo dos" << endl;
 		exit(0);
 	}
 
