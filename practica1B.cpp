@@ -654,12 +654,12 @@ int * poblacion::fuerte(){
 
 	}
 
-	healt = pthread_create(hilo1,NULL,padresHilo,&cubeta);
+	healt = pthread_create(&hilo1,NULL,padresHilo,&cubeta);
 	if (healt = -1) {
 		cout << "Error al crear el hilo" << endl;
 		exit(0);
 	}
-	healt = pthread_create(hilo2,NULL,debilesHilo,&cubeta);
+	healt = pthread_create(&hilo2,NULL,debilesHilo,&cubeta);
 	if (healt = -1) {
 		cout << "Error al crear el hilo" << endl;
 		exit(0);
