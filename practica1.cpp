@@ -113,7 +113,7 @@ int main( ){
 
 	for(int i = 0; i < socNum; i++){
 		semillas[i] = i+10;
-		healt = pthread_create(&hilos[i],NULL,creaSociedad,&semillas[i])
+		healt = pthread_create(&hilos[i],NULL,creaSociedad,&semillas[i]);
 
 
 		if(healt == -1){
