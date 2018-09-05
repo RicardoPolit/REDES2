@@ -18,6 +18,8 @@
 #include <pthread.h>
 using namespace std;
 
+vector< int > Perds;
+
 struct estructuraHilos{
 	vector< int > cubeta;
 	int indi;
@@ -679,14 +681,13 @@ int * poblacion::fuerte(){
 	}
 
 	int * padress;
-	vector< int > auxPerd;
 
 	pthread_join(hilo1,(void **) &padress);
-	cout << "Join 1" << endl;
-	pthread_join(hilo2,(void **) &auxPerd);
-	cout << "Join 2" << endl;
+	//cout << "Join 1" << endl;
+	pthread_join(hilo2,NULL;
+	//cout << "Join 2" << endl;
 
-  Perd = auxPerd;
+  Perd = Perds;
 
 	//Se obtienen los perdedores de la poblacion
 
@@ -740,17 +741,16 @@ void * debilesHilo(void* cubet){
 	for(int i = 0; i < (*estruct).cubeta.size(); i++)
 	  cubeta.push_back((*estruct).cubeta[i]);
 	int indi = (*estruct).indi;
-	vector< int > Perd;
 
 	for(int z = 0; z < indi; z++){
 
 		if(cubeta[z] == 0){
-			Perd.push_back(z);
+			Perds.push_back(z);
 		}
 
 	}
 
-	pthread_exit(&Perd);
+	pthread_exit(NULL);
 }
 
 void poblacion::alea(){
