@@ -104,7 +104,7 @@ class poblacion{
 int main( ){
 
 	int healt;
-	int socNum = 2;
+	int socNum = 6;
 	int *semillas;
 
 	pthread_t *hilos;
@@ -120,14 +120,14 @@ int main( ){
 			cout << "Error al crear el hilo: " << i << endl;
 			exit(0);
 		}
-		cout << "Hilo" << i <<"creado satisfactoriamente"<< endl;
+		//cout << "Hilo" << i <<"creado satisfactoriamente"<< endl;
 
 
 	}
 
 	for (int i = 0; i < socNum; i++) {
 		pthread_join(hilos[i], NULL);
-		cout << "Join: " << i << endl;
+		//cout << "Join: " << i << endl;
 	}
 
 	return 0;
@@ -173,8 +173,8 @@ void *creaSociedad(void *a){
 
 		//Termina: Crea el individuo
 
-		cout << "Creando primera poblacion hilo con semilla " << (*seed) << " :" << endl;
-		cout << ++contador << "/" << tamPob << endl;
+		//cout << "Creando primera poblacion hilo con semilla " << (*seed) << " :" << endl;
+		//cout << ++contador << "/" << tamPob << endl;
 	}
 
 	//Inicia: Crea la poblacion
@@ -200,8 +200,8 @@ void *creaSociedad(void *a){
 
 	//Termina: condicion de termino
 
-		cout << "Iteraciones: " << endl;
-		cout << iterra-iteraciones << "/" << iterra << endl;
+		//cout << "Iteraciones: " << endl;
+		//cout << iterra-iteraciones << "/" << iterra << endl;
 		salida = 0;
 		do{
 
