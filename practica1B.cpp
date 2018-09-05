@@ -737,9 +737,7 @@ void * padresHilo(void* cubet){
 
 void * debilesHilo(void* cubet){
 	struct estructuraHilos *estruct = (struct estructuraHilos *)cubet;
-	vector<int> cubeta;
-  for(int i = 0; i < (*estruct).cubeta.size(); i++)
-	  cubeta.push_back((*estruct).cubeta[i]);
+	vector<int> cubeta = (*estruct).cubeta;
 	int indi = (*estruct).indi;
 	vector< int > Perd;
 
