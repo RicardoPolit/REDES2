@@ -668,9 +668,9 @@ int * poblacion::fuerte(){
 	int * padress;
 	vector < int > auxPerd;
 
-	pthread_join(hilo1, &padress);
+	pthread_join(hilo1,(void **) &padress);
 	cout << "Join 1" << endl;
-	pthread_join(hilo2, &auxPerd);
+	pthread_join(hilo2,(void **) &auxPerd);
 	cout << "Join 2" << endl;
 	Perd = auxPerd;
 
