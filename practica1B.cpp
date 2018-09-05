@@ -15,12 +15,15 @@
 #include <sstream>
 #include <stdlib.h>
 #include <time.h>
-//#include <pthread.h>
+#include <pthread.h>
 using namespace std;
 
 #define PI 3.141592654
 
 void * creaSociedad( void* );
+
+void * padresHilo(void*);
+void * debilesHilo(void*);
 
 double deg2rad(double valor);
 void mutacion( vector< short > &hijo, int n );
@@ -85,7 +88,6 @@ class poblacion{
 		void porcentaje();
 		void acomula();
 		void alea();
-		int * padress;
 
 	public:
 
@@ -529,7 +531,7 @@ vector<individuo> poblacion::nueva( individuo hijo ){
 		nuevaPoblacion[ i ] = indi[ Gan[i] ];			//Se mantienen los individuos mas fuertes
 
 	for(int i = 0; i < Perd.size(); i++ )
-		nuevaPoblacion[ Perd[ i ] ] = hijo;				// Se reemplazan los debiles por los hijos
+		nuevaPoblacion[ [ i ] ] = hijo;				// Se reemplazan los debiles por los hijos
 
 	return nuevaPoblacion;
 }
@@ -622,6 +624,10 @@ int * poblacion::fuerte(){
 	acomula();
 	alea();
 	Gan.clear();
+	//Declaración y reserva de memoria de hilos
+	pthread_t hilo1;
+	pthread_t hilo2;
+	int healt;
 
 	//Se obtienen los ganadores de la poblacion
 	for(int i = 0; i < indi.size(); i++){
@@ -637,11 +643,8 @@ int * poblacion::fuerte(){
 	//Se obtienen los padres para ser cruzados (los mas fuertes)
 	int tama = Gan.size();
 	cubeta.clear();
-	int auxMax = 0;
-	padress = (int *) malloc(2*sizeof(int));
 
-	padress[0] = -1;
-	padress[1] = -1;
+
 
 	for(int i = 0; i < indi.size(); i++)
 		cubeta.push_back(0);
@@ -651,8 +654,41 @@ int * poblacion::fuerte(){
 
 	}
 
+	healt = pthread_create(hilo1,NULL,padresHilo,&cubeta);
+	if (healt = -1) {
+		cout << "Error al crear el hilo" << endl;
+		exit(0);
+	}
+	healt = pthread_create(hilo2,NULL,debilesHilo,&cubeta);
+	if (healt = -1) {
+		cout << "Error al crear el hilo" << endl;
+		exit(0);
+	}
+
+	int * padress;
+	vector < int > auxPerd;
+
+	pthread_join(hilo1, &padress);
+	cout << "Join 1" << endl;
+	pthread_join(hilo2, &auxPerd);
+	cout << "Join 2" << endl;
+	Perd = auxPerd;
 
 
+	//Se obtienen los perdedores de la poblacion
+
+
+	return padress;
+
+}
+
+void * padresHilo(void* cubet){
+	vector<int>* cubeta = static_cast<vector<int>*>(cubet);
+	int * padress;
+	int auxMax = 0;
+	padress = (int *) malloc(2*sizeof(int));
+	padress[0] = -1;
+	padress[1] = -1;
 	for(int i = 0; i < indi.size(); i++){
 		if(cubeta[i]>auxMax)
 			auxMax = cubeta[i];
@@ -677,17 +713,23 @@ int * poblacion::fuerte(){
 	}
 	if(padress[1]==-1)
 		padress[1]=padress[0];
+	pthread_exit(padress);
+}
 
+void * debilesHilo(void* cubet){
 
-	//Se obtienen los perdedores de la poblacion
+	vector<int>* cubeta = static_cast<vector<int>*>(cubet);
+	vector< int > Perd;
+
 	for(int z = 0; z < indi.size(); z++){
+
 		if(cubeta[z] == 0){
 			Perd.push_back(z);
 		}
+
 	}
 
-	return padress;
-
+	pthread_exit(Perd);
 }
 
 void poblacion::alea(){
