@@ -633,7 +633,7 @@ int * poblacion::fuerte(){
 	pthread_t hilo1;
 	pthread_t hilo2;
 	int healt;
-	struct estructuraHilos estructura;
+	struct estructuraHilos *estructura;
 	//Se obtienen los ganadores de la poblacion
 	for(int i = 0; i < indi.size(); i++){
 		for(int j = 0; j < indi.size(); j++){
@@ -659,15 +659,17 @@ int * poblacion::fuerte(){
 
 	}
 
-	estructura.cubeta = cubeta;
-	estructura.indi = indi.size();
+	estructura =(struct estructuraHilos *) malloc(sizeof(struct estructuraHilos));
 
-	healt = pthread_create(&hilo1,NULL,padresHilo,estructura);
+	(*estructura).cubeta = cubeta;
+	(*estructura).indi = indi.size();
+
+	healt = pthread_create(&hilo1,NULL,padresHilo,(void *)estructura);
 	if (healt = -1) {
 		cout << "Error al crear el hilo" << endl;
 		exit(0);
 	}
-	healt = pthread_create(&hilo2,NULL,debilesHilo,estructura);
+	healt = pthread_create(&hilo2,NULL,debilesHilo,(void *)estructura);
 	if (healt = -1) {
 		cout << "Error al crear el hilo" << endl;
 		exit(0);
