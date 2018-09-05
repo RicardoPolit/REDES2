@@ -18,6 +18,11 @@
 #include <pthread.h>
 using namespace std;
 
+struct estructuraHilos{
+	vector< int > cubeta;
+	int indi;
+};
+
 #define PI 3.141592654
 
 void * creaSociedad( void* );
@@ -628,7 +633,7 @@ int * poblacion::fuerte(){
 	pthread_t hilo1;
 	pthread_t hilo2;
 	int healt;
-
+	struct estructuraHilos estructura;
 	//Se obtienen los ganadores de la poblacion
 	for(int i = 0; i < indi.size(); i++){
 		for(int j = 0; j < indi.size(); j++){
@@ -654,12 +659,15 @@ int * poblacion::fuerte(){
 
 	}
 
-	healt = pthread_create(&hilo1,NULL,padresHilo,&cubeta);
+	estructura.cubeta = cubeta;
+	estructura.indi = indi.size();
+
+	healt = pthread_create(&hilo1,NULL,padresHilo,estructura);
 	if (healt = -1) {
 		cout << "Error al crear el hilo" << endl;
 		exit(0);
 	}
-	healt = pthread_create(&hilo2,NULL,debilesHilo,&cubeta);
+	healt = pthread_create(&hilo2,NULL,debilesHilo,estructura);
 	if (healt = -1) {
 		cout << "Error al crear el hilo" << endl;
 		exit(0);
@@ -683,13 +691,15 @@ int * poblacion::fuerte(){
 }
 
 void * padresHilo(void* cubet){
-	vector<int>* cubeta = static_cast<vector<int>*>(cubet);
+	struct estructuraHilos *estruct = (struct estructuraHilos *)cubet;
+	vector<int> cubeta = (*estruct).cubeta;
+	int indi = (*estruct).indi;
 	int * padress;
 	int auxMax = 0;
 	padress = (int *) malloc(2*sizeof(int));
 	padress[0] = -1;
 	padress[1] = -1;
-	for(int i = 0; i < indi.size(); i++){
+	for(int i = 0; i < indi; i++){
 		if(cubeta[i]>auxMax)
 			auxMax = cubeta[i];
 	}
@@ -701,7 +711,7 @@ void * padresHilo(void* cubet){
 	for(int j = auxMax; j > 0; j--){
 
 		bandera1 = false;
-		for(int z = 0; z < indi.size(); z++){
+		for(int z = 0; z < indi; z++){
 
 			if(cubeta[z] == j&&ina<=1){
 				padress[ina++] = z;
@@ -718,10 +728,12 @@ void * padresHilo(void* cubet){
 
 void * debilesHilo(void* cubet){
 
-	vector<int>* cubeta = static_cast<vector<int>*>(cubet);
+	struct estructuraHilos *estruct = (struct estructuraHilos *)cubet;
+	vector<int> cubeta = (*estruct).cubeta;
+	int indi = (*estruct).indi;
 	vector< int > Perd;
 
-	for(int z = 0; z < indi.size(); z++){
+	for(int z = 0; z < indi; z++){
 
 		if(cubeta[z] == 0){
 			Perd.push_back(z);
@@ -729,7 +741,7 @@ void * debilesHilo(void* cubet){
 
 	}
 
-	pthread_exit(Perd);
+	pthread_exit(&Perd);
 }
 
 void poblacion::alea(){
