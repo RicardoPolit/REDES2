@@ -658,32 +658,35 @@ int * poblacion::fuerte(){
 		cubeta[Gan[i]]++;
 	}
 
-	estructura =(struct estructuraHilos *) malloc(sizeof(struct estructuraHilos));
+	estructura =(struct estructuraHilos *) calloc(1,sizeof(struct estructuraHilos));
 
 	for(int i = 0; i < cubeta.size(); i ++)
 		(*estructura).cubeta.push_back(cubeta[i]);
+  
 	(*estructura).indi = indi.size();
 
+ 
+  
 	healt = pthread_create(&hilo1,NULL,padresHilo,(void *)estructura);
-	if (healt = -1) {
+	if (healt == -1) {
 		cout << "Error al crear el hilo uno" << endl;
 		exit(0);
 	}
 	healt = pthread_create(&hilo2,NULL,debilesHilo,(void *)estructura);
-	if (healt = -1) {
+	if (healt == -1) {
 		cout << "Error al crear el hilo dos" << endl;
 		exit(0);
 	}
-
+  
 	int * padress;
-	vector < int > auxPerd;
+	vector< int > auxPerd;
 
 	pthread_join(hilo1,(void **) &padress);
 	cout << "Join 1" << endl;
 	pthread_join(hilo2,(void **) &auxPerd);
 	cout << "Join 2" << endl;
-	Perd = auxPerd;
-
+ 
+  Perd = auxPerd;
 
 	//Se obtienen los perdedores de la poblacion
 
@@ -693,8 +696,12 @@ int * poblacion::fuerte(){
 }
 
 void * padresHilo(void* cubet){
+  
 	struct estructuraHilos *estruct = (struct estructuraHilos *)cubet;
-	vector<int> cubeta = (*estruct).cubeta;
+  vector<int> cubeta;
+  
+  for(int i = 0; i < (*estruct).cubeta.size(); i++)
+	  cubeta.push_back((*estruct).cubeta[i]);
 	int indi = (*estruct).indi;
 	int * padress;
 	int auxMax = 0;
@@ -729,9 +736,10 @@ void * padresHilo(void* cubet){
 }
 
 void * debilesHilo(void* cubet){
-
 	struct estructuraHilos *estruct = (struct estructuraHilos *)cubet;
-	vector<int> cubeta = (*estruct).cubeta;
+	vector<int> cubeta;
+  for(int i = 0; i < (*estruct).cubeta.size(); i++)
+	  cubeta.push_back((*estruct).cubeta[i]);
 	int indi = (*estruct).indi;
 	vector< int > Perd;
 
