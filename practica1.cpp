@@ -15,7 +15,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <time.h>
-//#include <pthread.h>
+#include <pthread.h>
 using namespace std;
 
 #define PI 3.141592654
@@ -103,15 +103,31 @@ class poblacion{
 
 int main( ){
 
+	int healt;
 	int socNum = 2;
-
 	int *semillas;
 
+	pthread_t *hilos;
 	semillas = (int *) malloc (socNum*sizeof(int ));
+	hilos = (pthread_t *) malloc(sizeof(pthread_t)*socNum);
 
 	for(int i = 0; i < socNum; i++){
 		semillas[i] = i+10;
-		creaSociedad(&semillas[i]);
+		healt = pthread_create(&hilos[i],NULL,creaSociedad,&semillas[i])
+
+
+		if(healt == -1){
+			cout << "Error al crear el hilo: " << i << endl;
+			exit(0);
+		}
+		cout << "Hilo" << i <<"creado satisfactoriamente"<< endl;
+
+
+	}
+
+	for (int i = 0; i < socNum; i++) {
+		pthread_join(hilos[i], NULL);
+		cout << "Join: " << i << endl;
 	}
 
 	return 0;
@@ -255,8 +271,7 @@ void *creaSociedad(void *a){
 
 	pobla.mostrarResultado(valorvars,(*seed));
 
-	//pthread_exit(as);
-	return a;
+	pthread_exit(NULL);
 }
 
 
@@ -499,7 +514,7 @@ void poblacion::mostrarResultado( double valorvars ,int se){
   std::ostringstream convert;
   convert << se-9;
   aut = convert.str();
-  
+
 	//Imprime los valores del maximo individuo en el archivo 'salida.txt'
 	string nombreArchivo = "salida"+aut+".txt";
 	individuo individuoGanador = indi[ ganador ];
