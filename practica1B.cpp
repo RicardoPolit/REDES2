@@ -656,12 +656,12 @@ int * poblacion::fuerte(){
 
 	for(int i = 0; i < tama; i++){
 		cubeta[Gan[i]]++;
-
 	}
 
 	estructura =(struct estructuraHilos *) malloc(sizeof(struct estructuraHilos));
 
-	(*estructura).cubeta = cubeta;
+	for(int i = 0; i < cubeta.size(); i ++)
+		(*estructura).cubeta.push_back(cubeta[i]);
 	(*estructura).indi = indi.size();
 
 	healt = pthread_create(&hilo1,NULL,padresHilo,(void *)estructura);
