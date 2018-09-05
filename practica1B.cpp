@@ -684,7 +684,7 @@ int * poblacion::fuerte(){
 
 	pthread_join(hilo1,(void **) &padress);
 	//cout << "Join 1" << endl;
-	pthread_join(hilo2,NULL;
+	pthread_join(hilo2,NULL);
 	//cout << "Join 2" << endl;
 
   Perd = Perds;
